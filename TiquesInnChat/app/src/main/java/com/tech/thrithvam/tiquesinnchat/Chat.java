@@ -43,18 +43,14 @@ import java.util.logging.Logger;
 
 public class Chat extends AppCompatActivity {
     DatabaseHandler db=new DatabaseHandler(this);
-
     EditText inputMessage;
     ImageView send;
     String lastProductIdSeen="";
     Bundle extras;
-
     ListView msgList;
     Handler handler = new Handler();
     int loadedMsgCount=0;
     String UserID;
-
-  //  TextView loadingTxt;
     LinearLayout productDetail;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
