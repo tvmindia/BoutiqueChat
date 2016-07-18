@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.tech.thrithvam.tiquesinnchat.SplashScreen">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/frameLayout">
+        <ImageView
+            android:layout_width="1920px"
+            android:layout_height="match_parent"
+            android:id="@+id/splashImage"
+            android:src="@drawable/splash"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:background="#ffffff" />
+
+
+    </FrameLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#32000000">
+
+    </TextView>
+    <!-- <ImageView
+         android:layout_width="match_parent"
+         android:layout_height="100dp"
+         android:src="@drawable/title"
+
+         android:id="@+id/title"
+         android:layout_centerHorizontal="true"
+         android:layout_above="@+id/tagLine"/>-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:id="@+id/title"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/tagLine"
+        android:textSize="50sp"
+        android:textIsSelectable="false"
+        android:textStyle="bold"
+        android:textColor="#ffffff"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="- Chat with your customers -"
+        android:id="@+id/tagLine"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="5dp"
+        android:paddingBottom="70dp"
+        android:textColor="#ffffff" />
+</RelativeLayout>
