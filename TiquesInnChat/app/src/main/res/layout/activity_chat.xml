@@ -25,6 +25,15 @@
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:layout_margin="5dp">
+            <com.wang.avi.AVLoadingIndicatorView
+                android:id="@+id/prodDetLoading"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:visibility="gone"
+                app:indicator="BallTrianglePath"
+                app:indicator_color="@color/primary_text"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"/>
 
             <ImageView
                 android:layout_width="80dp"

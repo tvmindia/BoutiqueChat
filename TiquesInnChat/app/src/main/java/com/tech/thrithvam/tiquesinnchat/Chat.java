@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -115,7 +116,7 @@ public class Chat extends AppCompatActivity {
             msgList.setOnItemClickListener(null);
             msgList.setSelection(msgList.getCount() - 1);
             loadedMsgCount=msgList.getCount();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+           /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 msgList.setOnScrollChangeListener(new View.OnScrollChangeListener() {
                     @Override
                     public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
@@ -132,7 +133,7 @@ public class Chat extends AppCompatActivity {
                     }
                 });
             }
-            else {
+            else {*/
                 msgList.setOnScrollListener(new AbsListView.OnScrollListener() {
                     @Override
                     public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -154,7 +155,7 @@ public class Chat extends AppCompatActivity {
 
                     }
                 });
-            }
+         //   }
         }
         if(loadedMsgCount==0){
             msgList.setVisibility(View.GONE);
@@ -309,9 +310,12 @@ public class Chat extends AppCompatActivity {
         boolean pass=false;
         String productName,priceString,productImage;
         Integer productNoInt;
+        AVLoadingIndicatorView avLoadingIndicatorView;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            avLoadingIndicatorView=(AVLoadingIndicatorView)findViewById(R.id.prodDetLoading);
+            avLoadingIndicatorView.setVisibility(View.VISIBLE);
             //----------encrypting ---------------------------
             // usernameString=cryptography.Encrypt(usernameString);
         }
@@ -409,6 +413,7 @@ public class Chat extends AppCompatActivity {
                 Picasso.with(Chat.this).load(productImage).into(pImage);
                 productDetail.setVisibility(View.VISIBLE);
             }
+            avLoadingIndicatorView.setVisibility(View.GONE);
         }
     }
 
