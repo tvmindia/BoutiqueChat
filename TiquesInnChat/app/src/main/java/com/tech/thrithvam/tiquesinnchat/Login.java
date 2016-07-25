@@ -125,7 +125,7 @@ public class Login extends AppCompatActivity {
                         int a=sb.indexOf("[");
                         int b=sb.lastIndexOf("]");
                         strJson=sb.substring(a, b + 1);
-                        strJson="{\"JSON\":" + strJson.replace("\\\"","\"") + "}";
+                        strJson="{\"JSON\":" + strJson.replace("\\\"","\"").replace("\\\\","\\") + "}";
                 }
             } catch (Exception ex) {
                 msg=ex.getMessage();

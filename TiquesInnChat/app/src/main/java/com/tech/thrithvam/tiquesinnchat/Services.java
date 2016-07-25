@@ -116,7 +116,7 @@ public class Services extends Service {
                         int b=sb.lastIndexOf("]");
                         strJson=sb.substring(a, b + 1);
                         //   strJson=cryptography.Decrypt(strJson);
-                        strJson="{\"JSON\":" + strJson.replace("\\\"","\"") + "}";
+                        strJson="{\"JSON\":" + strJson.replace("\\\"","\"").replace("\\\\","\\") + "}";
                 }
             } catch (Exception ex) {
                 msg=ex.getMessage();
@@ -144,7 +144,7 @@ public class Services extends Service {
                                 ,jsonObject.optString("Name")
                                 , jsonObject.optString("Message")
                                 , jsonObject.optString("Direction")
-                                , jsonObject.optString("MessageTime").replace("\\/Date(", "").replace(")\\/", "")
+                                , jsonObject.optString("MessageTime").replace("/Date(", "").replace(")/", "")
                                 , jsonObject.optString("ProductID"));
                         if(jsonObject.optString("Direction").equals("out")){
                             msgIncomingflag=true;
@@ -232,7 +232,7 @@ public class Services extends Service {
                         int b=sb.lastIndexOf("]");
                         strJson=sb.substring(a, b + 1);
                         //   strJson=cryptography.Decrypt(strJson);
-                        strJson="{\"JSON\":" + strJson.replace("\\\"","\"") + "}";
+                        strJson="{\"JSON\":" + strJson.replace("\\\"","\"").replace("\\\\","\\") + "}";
                 }
             } catch (Exception ex) {
                 msg=ex.getMessage();
