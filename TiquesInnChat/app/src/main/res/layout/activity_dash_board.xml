@@ -3,10 +3,169 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.tech.thrithvam.tiquesinnchat.DashBoard">
+    tools:context="com.tech.thrithvam.tiquesinnchat.DashBoard"
+    android:background="@drawable/bg">
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+<TableRow>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1">
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_margin="2dp"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="4dp"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:src="@drawable/products"
+                android:id="@+id/imgBtn1"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"/>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imgBtn1"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Total Products: "
+                android:id="@+id/imgBtntext1"
+                android:gravity="center_horizontal"
+                android:textColor="@color/primary_text"/>
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1">
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_margin="2dp"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="4dp"
+            >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="100dp"
+                    android:src="@drawable/trending"
+                    android:id="@+id/imgBtn2"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/imgBtn2"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Trending Products"
+                    android:id="@+id/imgBtntext2"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/accent"/>
+
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+</TableRow>
+
+<TableRow>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1">
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_margin="2dp"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="4dp"
+                    >
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="100dp"
+                            android:src="@drawable/purchases"
+                            android:id="@+id/imgBtn3"
+                            android:layout_centerVertical="true"
+                            android:layout_centerHorizontal="true"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/imgBtn3"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:id="@+id/imgBtntext3"
+                            android:gravity="center_horizontal"
+                            android:textColor="@color/primary_text"
+                            android:text="Today Purchases: " />
+
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:onClick="chat">
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_margin="2dp"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="4dp"
+                    >
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="100dp"
+                            android:src="@drawable/chat"
+                            android:id="@+id/imgBtn4"
+                            android:layout_centerVertical="true"
+                            android:layout_centerHorizontal="true"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/imgBtn4"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="Chat"
+                            android:id="@+id/imgBtntext4"
+                            android:gravity="center_horizontal"
+                            android:textColor="@color/accent"/>
+
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
+        </TableRow>
+    </TableLayout>
+</ScrollView>
 </RelativeLayout>

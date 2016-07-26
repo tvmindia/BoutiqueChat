@@ -36,7 +36,7 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         if(db.GetUserDetail("UserID")!=null)
         {
-            Intent goHome = new Intent(Login.this, ChatList.class);
+            Intent goHome = new Intent(Login.this, DashBoard.class);
             goHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             goHome.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(goHome);
@@ -174,7 +174,7 @@ public class Login extends AppCompatActivity {
             else {
                 db.UserLogout();
                 db.UserLogin(userName.getText().toString(), UserID,BoutiqueID,BoutiqueName);
-                Intent loginIntent = new Intent(Login.this, ChatList.class);
+                Intent loginIntent = new Intent(Login.this, DashBoard.class);
                 loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 loginIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 Toast.makeText(Login.this,msg,Toast.LENGTH_LONG).show();
