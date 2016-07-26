@@ -2,11 +2,13 @@ package com.tech.thrithvam.tiquesinnchat;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,14 +29,14 @@ public class CustomAdapter extends BaseAdapter {
     private ArrayList<String[]> objects;
     private String calledFrom;
 
-    //    DatabaseHandler db;
+    DatabaseHandler db;
     public CustomAdapter(Context context, ArrayList<String[]> objects, String calledFrom) {
         // super(context, textViewResourceId, objects);
         adapterContext = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.objects = objects;
         this.calledFrom = calledFrom;
-//        db=new DatabaseHandler(context);
+        db=new DatabaseHandler(context);
     }
 
     public class Holder {
@@ -151,6 +153,25 @@ public class CustomAdapter extends BaseAdapter {
                         ((Activity)adapterContext).overridePendingTransition(R.anim.slide_entry1,R.anim.slide_entry2);
                     }
                 });
+                convertView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        new AlertDialog.Builder(adapterContext).setIcon(android.R.drawable.ic_dialog_alert)//.setTitle(R.string.exit)
+                                .setMessage(R.string.delete_review_q)
+                                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        db.DeleteChatHeads(objects.get(FinalPos)[0]);
+                                        Intent intent=new Intent(adapterContext,ChatList.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        adapterContext.startActivity(intent);
+                                        ((Activity)adapterContext).finish();
+                                    }
+                                }).setNegativeButton(R.string.no, null).show();
+                        return false;
+                    }
+                });
+
                 if(objects.get(position)[4].equals("false")){
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         convertView.setBackgroundColor(adapterContext.getColor(R.color.primary_light));

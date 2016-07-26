@@ -30,7 +30,9 @@
         <service
             android:name=".Services"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <activity android:name=".DashBoard"></activity>
     </application>
 
 </manifest>

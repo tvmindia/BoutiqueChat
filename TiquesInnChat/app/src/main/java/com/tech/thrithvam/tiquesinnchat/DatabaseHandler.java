@@ -112,4 +112,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
         else return msgHeads;//empty array list to avoid exception in custom adapter
     }
+    public void DeleteChatHeads(String userID){
+        db=this.getWritableDatabase();
+        db.execSQL("DELETE FROM Chat WHERE UserID='"+ userID +"';");
+        db.close();
+    }
 }
