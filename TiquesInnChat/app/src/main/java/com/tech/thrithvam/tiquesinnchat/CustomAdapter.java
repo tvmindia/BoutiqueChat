@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -16,7 +15,6 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -157,7 +155,7 @@ public class CustomAdapter extends BaseAdapter {
                     @Override
                     public boolean onLongClick(View v) {
                         new AlertDialog.Builder(adapterContext).setIcon(android.R.drawable.ic_dialog_alert)//.setTitle(R.string.exit)
-                                .setMessage(R.string.delete_review_q)
+                                .setMessage(R.string.delete_chathead_q)
                                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
