@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
@@ -562,8 +563,26 @@ public class Chat extends AppCompatActivity {
                 user_name.setText(nameString);
                 TextView mobno=(TextView)dialogView.findViewById(R.id.mobile);
                 mobno.setText(mobileString);
+                mobno.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {                                   //Phone call function
+                        Uri number = Uri.parse("tel:" + mobileString);
+                        Intent callIntent = new Intent(Intent.ACTION_DIAL, number);
+                        startActivity(callIntent);
+                        overridePendingTransition(R.anim.slide_entry1,R.anim.slide_entry2);
+                    }
+                });
                 TextView email=(TextView)dialogView.findViewById(R.id.email);
                 email.setText(emailString);
+                email.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(Intent.ACTION_SEND);
+                        intent.putExtra(Intent.EXTRA_EMAIL, emailString);
+                        intent.setType("text/plain");
+                        startActivity(Intent.createChooser(intent, "Send Email"));
+                    }
+                });
                 TextView loyaltyCardNo=(TextView)dialogView.findViewById(R.id.loyaltyCardNo);
                 loyaltyCardNo.setText(loyaltyCardNoString);
                 TextView loyaltyPoints=(TextView)dialogView.findViewById(R.id.loyaltyPoints);
