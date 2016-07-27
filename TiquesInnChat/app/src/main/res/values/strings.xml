@@ -23,4 +23,11 @@
     <string name="rs">₹ : %1$s</string>
     <string name="product_no">Product No: %1$d</string>
     <string name="delete_chathead_q">Do you want to delete this chat?</string>
+    <string name="mob_no">Mobile Number</string>
+    <string name="dob">Date of Birth</string>
+    <string name="anniversary">Anniversary</string>
+    <string name="email">E-Mail</string>
+    <string name="name">Name</string>
+    <string name="loyalty_card_no">Loyalty Card Number</string>
+    <string name="loyalty_points">Loyalty Points</string>
 </resources>
