@@ -468,7 +468,8 @@ public class Chat extends AppCompatActivity {
 
                                 }
                             })
-                    .setIcon(R.drawable.user_who);
+                    .setIcon(R.drawable.user_who)
+                    .show();
             avLoadingIndicatorView=(AVLoadingIndicatorView)dialogView.findViewById(R.id.details_loading);
             //----------encrypting ---------------------------
             // usernameString=cryptography.Encrypt(usernameString);
@@ -579,7 +580,8 @@ public class Chat extends AppCompatActivity {
                     public void onClick(View v) {
                         Intent intent = new Intent(Intent.ACTION_SEND);
                         intent.putExtra(Intent.EXTRA_EMAIL, emailString);
-                        intent.setType("text/plain");
+//                        intent.setType("text/plain");
+                        intent.setType("message/rfc822");
                         startActivity(Intent.createChooser(intent, "Send Email"));
                     }
                 });
@@ -615,7 +617,6 @@ public class Chat extends AppCompatActivity {
                 RelativeLayout userDetails=(RelativeLayout)dialogView.findViewById(R.id.user_details);
                 userDetails.setVisibility(View.VISIBLE);
                 avLoadingIndicatorView.setVisibility(View.GONE);
-                dialogBuilder.show();
             }
         }
     }
