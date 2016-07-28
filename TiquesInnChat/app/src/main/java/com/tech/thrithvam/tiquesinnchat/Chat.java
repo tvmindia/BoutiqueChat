@@ -579,7 +579,7 @@ public class Chat extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(Intent.ACTION_SEND);
-                        intent.putExtra(Intent.EXTRA_EMAIL, emailString);
+                        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{emailString});
 //                        intent.setType("text/plain");
                         intent.setType("message/rfc822");
                         startActivity(Intent.createChooser(intent, "Send Email"));

@@ -17,7 +17,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -150,7 +149,7 @@ public class Login extends AppCompatActivity {
                     BoutiqueID=jsonObject.optString("BoutiqueID");
                     BoutiqueName=jsonObject.optString("BoutiqueName");
                 }
-            } catch (JSONException ex) {
+            } catch (Exception ex) {
                 msg=ex.getMessage();
             }}
             return null;
