@@ -29,6 +29,7 @@ public class Login extends AppCompatActivity {
     DatabaseHandler db=new DatabaseHandler(Login.this);
     EditText userName;
     EditText password;
+    AsyncTask login;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +67,7 @@ public class Login extends AppCompatActivity {
             } else if (password.getText().toString().equals("")) {
                 password.setError(getResources().getString(R.string.password_error_msg));
             } else {
-                new UserLogin().execute();
+                login=new UserLogin().execute();
             }
         }
         else {
@@ -194,7 +195,12 @@ public class Login extends AppCompatActivity {
 //        password.setText("1234");
         userName.setText("sree");
         password.setText("sree");
-        new UserLogin().execute();
+        login=new UserLogin().execute();
+    }
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.slide_exit1,R.anim.slide_exit2);
     }
 }
 

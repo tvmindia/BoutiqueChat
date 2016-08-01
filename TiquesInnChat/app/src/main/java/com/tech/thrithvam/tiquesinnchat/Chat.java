@@ -59,6 +59,7 @@ public class Chat extends AppCompatActivity {
     int loadedMsgCount=0;
     String UserID;
     LinearLayout productDetail;
+    AsyncTask productDetails,userDetails;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,7 +107,7 @@ public class Chat extends AppCompatActivity {
 
         //Product Details----------------------
 
-        new ProductDetailsForChat().execute();
+        productDetails=new ProductDetailsForChat().execute();
         //productDetail.setVisibility(View.GONE);
     }
     //----------Loading messages-----------------
@@ -146,13 +147,13 @@ public class Chat extends AppCompatActivity {
 
                         if(msgList.getLastVisiblePosition()==msgData.size()-1){
                             lastProductIdSeen=msgData.get(msgData.size()-1)[3];
-                            new ProductDetailsForChat().execute();
+                            productDetails=new ProductDetailsForChat().execute();
                         }
                         else if(!msgData.get(msgList.getLastVisiblePosition())[3].equals(lastProductIdSeen)
                                 &&
                                 !msgData.get(msgList.getLastVisiblePosition())[3].equals("null")){
                             lastProductIdSeen=msgData.get(msgList.getLastVisiblePosition())[3];
-                            new ProductDetailsForChat().execute();
+                            productDetails=new ProductDetailsForChat().execute();
                         }
                     }
 
@@ -186,6 +187,8 @@ public class Chat extends AppCompatActivity {
         startActivity(back);
         finish();
         handler.removeCallbacksAndMessages(null);
+        if(productDetails!=null) productDetails.cancel(true);
+        if(userDetails!=null) userDetails.cancel(true);
         overridePendingTransition(R.anim.slide_exit1,R.anim.slide_exit2);
     }
     public void sendMsg(View view){
@@ -440,7 +443,7 @@ public class Chat extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.user_details:
-                new GetUserDetails().execute();
+                userDetails=new GetUserDetails().execute();
             default:
         }
         return super.onOptionsItemSelected(item);

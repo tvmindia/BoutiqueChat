@@ -88,4 +88,9 @@ DatabaseHandler db=new DatabaseHandler(ChatList.this);
         }
         return super.onOptionsItemSelected(item);
     }
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.slide_exit1,R.anim.slide_exit2);
+    }
 }

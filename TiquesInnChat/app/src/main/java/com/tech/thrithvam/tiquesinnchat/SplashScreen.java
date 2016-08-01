@@ -60,6 +60,7 @@ public class SplashScreen extends AppCompatActivity {
                 goHome.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(goHome);
                 finish();
+                overridePendingTransition(R.anim.slide_entry1,R.anim.slide_entry2);
             }
         },6000);
     }

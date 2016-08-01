@@ -188,11 +188,4 @@ public class CustomAdapter extends BaseAdapter {
 
         return convertView;
     }
-
-    public boolean isOnline() {
-        ConnectivityManager cm = (ConnectivityManager) adapterContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnectedOrConnecting();
-    }
-
 }
