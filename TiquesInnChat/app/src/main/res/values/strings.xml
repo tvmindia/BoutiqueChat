@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Tiquesinn Chat</string>
+    <string name="app_name">Tiquesinn Owner</string>
     <string name="url" translatable="false">http://192.168.1.107:222/</string>
     <!--<string name="url" translatable="false">http://tiquesinn.com/</string>-->
     <string name="username">User Name</string>

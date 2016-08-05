@@ -23,7 +23,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ChatList" />
+        <activity android:name=".ChatList"
+            android:label="TiquesInn Chat"/>
         <activity android:name=".Login" />
         <activity android:name=".Chat" />
 
@@ -32,7 +33,8 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".DashBoard"></activity>
+        <activity android:name=".DashBoard" />
+        <activity android:name=".Charts"></activity>
     </application>
 
 </manifest>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:padding="5dp"
+        android:layout_marginLeft="5dp"
+        android:ems="10"
+        android:id="@+id/msgInput"
+        android:gravity="top|start"
+        android:background="@drawable/boarder"
+        android:scrollbars="vertical"
+        android:maxLines="3"
+        android:layout_toLeftOf="@+id/submitMsg"
+        android:layout_toStartOf="@+id/submitMsg"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:maxLength="200"/>
+</LinearLayout>

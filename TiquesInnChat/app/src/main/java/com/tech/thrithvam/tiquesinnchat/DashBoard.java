@@ -22,6 +22,10 @@ DatabaseHandler db=new DatabaseHandler(this);
         Intent chatIntent=new Intent(DashBoard.this,ChatList.class);
         startActivity(chatIntent);
     }
+    public void charts(View view){
+        Intent chatIntent=new Intent(DashBoard.this,Charts.class);
+        startActivity(chatIntent);
+    }
     //---------------Menu creation---------------------------------------------
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
