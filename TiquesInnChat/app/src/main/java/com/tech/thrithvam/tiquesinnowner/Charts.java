@@ -32,9 +32,11 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -163,7 +165,7 @@ public class Charts extends AppCompatActivity {
                     data[3]=jsonObject.optString("Discount");
                     data[4]=jsonObject.optString("ProductCounts","null");
                     productItems.add(data);
-                    dataSet.addBar(new Bar(data[0], Float.parseFloat(data[4])));
+                    dataSet.addBar(new Bar(data[1], Float.parseFloat(data[4])));
                 }
             } catch (Exception ex) {
                 msg=ex.getMessage();
@@ -175,7 +177,6 @@ public class Charts extends AppCompatActivity {
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
             pDialog.setVisibility(View.GONE);
-            Toast.makeText(Charts.this, strJson, Toast.LENGTH_SHORT).show();
             if(!pass) {
                 new AlertDialog.Builder(Charts.this).setIcon(android.R.drawable.ic_dialog_alert)//.setTitle("")
                         .setMessage(R.string.no_items)
@@ -191,6 +192,33 @@ public class Charts extends AppCompatActivity {
                 dataSet.setColor(getResources().getColor(R.color.primary));
                 chart.addData(dataSet);
                 chart.setRoundCorners(3);
+
+
+                //--------Creating Y axis labels-------------------
+                int max=Integer.parseInt(productItems.get(0)[4]);
+
+                int next;
+                int step;
+                int stepMultiplierMultiplier=1;
+                int[] stepMultiplier={2,5,10};
+                do{
+                    step=stepMultiplier[0]*stepMultiplierMultiplier;
+                    if(max/step<10)
+                            break;
+                    step=stepMultiplier[1]*stepMultiplierMultiplier;
+                    if(max/step<10)
+                            break;
+                    step=stepMultiplier[2]*stepMultiplierMultiplier;
+                    if(max/step<10)
+                            break;
+
+                    stepMultiplierMultiplier *= 10;
+                }while (true);
+
+                next=max+(step-max%step);
+                Toast.makeText(Charts.this,"Step: " +Integer.toString(step)+"\nNext: "+Integer.toString(next), Toast.LENGTH_LONG).show();
+                chart.setAxisBorderValues(0,next,step);
+                //----------------------------------------------------
 
                 Animation anim = new Animation(3000);
                 anim.setEasing(new CircEase());
