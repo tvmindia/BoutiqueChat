@@ -1,4 +1,4 @@
-package com.tech.thrithvam.tiquesinnchat;
+package com.tech.thrithvam.tiquesinnowner;
 
 import android.animation.ObjectAnimator;
 import android.content.Intent;

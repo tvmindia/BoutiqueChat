@@ -1,4 +1,4 @@
-package com.tech.thrithvam.tiquesinnchat;
+package com.tech.thrithvam.tiquesinnowner;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -9,7 +9,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -21,7 +20,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -88,7 +86,7 @@ public class Chat extends AppCompatActivity {
 
         } else {
             Toast.makeText(Chat.this, R.string.network_off_alert, Toast.LENGTH_LONG).show();
-            finish();
+           // finish();
         }
         inputMessage=(EditText)findViewById(R.id.msgInput);
         send=(ImageView) findViewById(R.id.submitMsg);

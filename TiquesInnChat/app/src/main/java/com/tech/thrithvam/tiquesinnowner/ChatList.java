@@ -1,4 +1,4 @@
-package com.tech.thrithvam.tiquesinnchat;
+package com.tech.thrithvam.tiquesinnowner;
 
 import android.content.DialogInterface;
 import android.content.Intent;

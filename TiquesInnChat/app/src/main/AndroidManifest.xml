@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.tech.thrithvam.tiquesinnchat">
+    package="com.tech.thrithvam.tiquesinnowner">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".SplashScreen"
+            android:name="com.tech.thrithvam.tiquesinnowner.SplashScreen"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar">
@@ -23,18 +23,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ChatList"
+        <activity android:name="com.tech.thrithvam.tiquesinnowner.ChatList"
             android:label="TiquesInn Chat"/>
-        <activity android:name=".Login" />
-        <activity android:name=".Chat" />
+        <activity android:name="com.tech.thrithvam.tiquesinnowner.Login" />
+        <activity android:name="com.tech.thrithvam.tiquesinnowner.Chat" />
 
         <service
-            android:name=".Services"
+            android:name="com.tech.thrithvam.tiquesinnowner.Services"
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".DashBoard" />
-        <activity android:name=".Charts"></activity>
+        <activity android:name="com.tech.thrithvam.tiquesinnowner.DashBoard" />
+        <activity android:name="com.tech.thrithvam.tiquesinnowner.Charts"></activity>
     </application>
 
 </manifest>

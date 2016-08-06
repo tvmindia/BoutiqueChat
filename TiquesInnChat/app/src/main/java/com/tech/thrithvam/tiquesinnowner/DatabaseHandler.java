@@ -1,4 +1,4 @@
-package com.tech.thrithvam.tiquesinnchat;
+package com.tech.thrithvam.tiquesinnowner;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -11,7 +11,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // All Static variables
     private static final int DATABASE_VERSION = 1;
     // Database Name
-    private static final String DATABASE_NAME = "TiquesInnChat.db";
+    private static final String DATABASE_NAME = "TiquesInnOwner.db";
     private SQLiteDatabase db;
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

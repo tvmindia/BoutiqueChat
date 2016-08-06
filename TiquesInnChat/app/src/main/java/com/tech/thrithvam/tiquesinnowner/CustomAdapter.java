@@ -1,11 +1,9 @@
-package com.tech.thrithvam.tiquesinnchat;
+package com.tech.thrithvam.tiquesinnowner;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Build;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;

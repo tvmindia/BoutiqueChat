@@ -5,7 +5,7 @@ android {
     buildToolsVersion "24.0.0"
 
     defaultConfig {
-        applicationId "com.tech.thrithvam.tiquesinnchat"
+        applicationId "com.tech.thrithvam.tiquesinnowner"
         minSdkVersion 13
         targetSdkVersion 23
         versionCode 1

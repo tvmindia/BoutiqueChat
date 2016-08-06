@@ -1,4 +1,4 @@
-package com.tech.thrithvam.tiquesinnchat;
+package com.tech.thrithvam.tiquesinnowner;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

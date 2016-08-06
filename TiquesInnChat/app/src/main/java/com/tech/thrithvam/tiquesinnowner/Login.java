@@ -1,4 +1,4 @@
-package com.tech.thrithvam.tiquesinnchat;
+package com.tech.thrithvam.tiquesinnowner;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -177,7 +177,6 @@ public class Login extends AppCompatActivity {
                 Intent loginIntent = new Intent(Login.this, DashBoard.class);
                 loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 loginIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                Toast.makeText(Login.this,msg,Toast.LENGTH_LONG).show();
                 startActivity(loginIntent);
                 overridePendingTransition(R.anim.slide_entry1,R.anim.slide_entry2);
                 finish();
@@ -191,10 +190,10 @@ public class Login extends AppCompatActivity {
     }
     //-------------fn to be deleted------------
     public void backdoor(View view) {
-//        userName.setText("Neima");
-//        password.setText("1234");
-        userName.setText("sree");
-        password.setText("sree");
+        userName.setText("Neima");
+        password.setText("1234");
+//        userName.setText("sree");
+//        password.setText("sree");
         login=new UserLogin().execute();
     }
     @Override
