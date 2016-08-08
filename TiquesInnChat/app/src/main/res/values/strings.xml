@@ -30,4 +30,6 @@
     <string name="name">Name</string>
     <string name="loyalty_card_no">Loyalty Card Number</string>
     <string name="loyalty_points">Loyalty Points</string>
+    <string name="count">Count : %1s</string>
+    <string name="p_no">No : %1s</string>
 </resources>

@@ -14,6 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.db.chart.Tools;
@@ -24,6 +26,7 @@ import com.db.chart.view.BarChartView;
 import com.db.chart.view.Tooltip;
 import com.db.chart.view.animation.Animation;
 import com.db.chart.view.animation.easing.CircEase;
+import com.squareup.picasso.Picasso;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONArray;
@@ -37,6 +40,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -161,8 +165,8 @@ public class Charts extends AppCompatActivity {
                     String[] data=new String[5];
                     data[0]=jsonObject.optString("ProductID");
                     data[1]=jsonObject.optString("Name");
-                    data[2]=jsonObject.optString("Image");
-                    data[3]=jsonObject.optString("Discount");
+                    data[2]=getResources().getString(R.string.url) + jsonObject.optString("Image").substring((jsonObject.optString("Image")).indexOf("Media"));
+                    data[3]=jsonObject.optString("ProductNo");
                     data[4]=jsonObject.optString("ProductCounts","null");
                     productItems.add(data);
                     dataSet.addBar(new Bar(data[1], Float.parseFloat(data[4])));
@@ -216,7 +220,6 @@ public class Charts extends AppCompatActivity {
                 }while (true);
 
                 next=max+(step-max%step);
-                Toast.makeText(Charts.this,"Step: " +Integer.toString(step)+"\nNext: "+Integer.toString(next), Toast.LENGTH_LONG).show();
                 chart.setAxisBorderValues(0,next,step);
                 //----------------------------------------------------
 
@@ -240,9 +243,20 @@ public class Charts extends AppCompatActivity {
                                     PropertyValuesHolder.ofFloat(View.SCALE_Y,0f)).setDuration(400);
                         }
                         tip.setVerticalAlignment(Tooltip.Alignment.BOTTOM_TOP);
-                        tip.setDimensions((int) Tools.fromDpToPx(100), (int) Tools.fromDpToPx(100));
-                        tip.setMargins(0, 0, 0, (int) Tools.fromDpToPx(10));
+                        tip.setDimensions((int) Tools.fromDpToPx(200), (int) Tools.fromDpToPx(120));
+                       // tip.setMargins(0, 0, 0, (int) Tools.fromDpToPx(10));
                         tip.prepare(chart.getEntriesArea(0).get(entryIndex), 0);
+
+                        //------Product Details---------
+                        TextView pName=(TextView)tip.findViewById(R.id.productName);
+                        pName.setText(productItems.get(entryIndex)[1]);
+                        TextView pNo=(TextView)tip.findViewById(R.id.productNo);
+                        pNo.setText(getResources().getString(R.string.p_no,productItems.get(entryIndex)[3]));
+                        TextView pCount=(TextView)tip.findViewById(R.id.productCount);
+                        pCount.setText(getResources().getString(R.string.count,productItems.get(entryIndex)[4]));
+                        ImageView pImg=(ImageView)tip.findViewById(R.id.productImg);
+                        Picasso.with(Charts.this).load(productItems.get(entryIndex)[2]).into(pImg);
+                        //--------------------------------
                         chart.showTooltip(tip,true);
                     }
                 });
