@@ -22,6 +22,7 @@ import com.db.chart.Tools;
 import com.db.chart.listener.OnEntryClickListener;
 import com.db.chart.model.Bar;
 import com.db.chart.model.BarSet;
+import com.db.chart.model.ChartEntry;
 import com.db.chart.view.BarChartView;
 import com.db.chart.view.Tooltip;
 import com.db.chart.view.animation.Animation;
@@ -193,7 +194,12 @@ public class Charts extends AppCompatActivity {
             }
             else {
 
-                dataSet.setColor(getResources().getColor(R.color.primary));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    dataSet.setColor(getColor(R.color.primary));
+                }
+                else {
+                    dataSet.setColor(getResources().getColor(R.color.primary));
+                }
                 chart.addData(dataSet);
                 chart.setRoundCorners(3);
 
@@ -227,10 +233,25 @@ public class Charts extends AppCompatActivity {
                 anim.setEasing(new CircEase());
                 chart.show(anim);
 
+                //-----------Tooltip on entry click---------------------
                 chart.setOnEntryClickListener(new OnEntryClickListener() {
                     @Override
                     public void onClick(int setIndex, int entryIndex, Rect rect) {
                         chart.dismissAllTooltips();
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            dataSet.setColor(getColor(R.color.primary));
+                        }
+                        else {
+                            dataSet.setColor(getResources().getColor(R.color.primary));
+                        }
+                        ChartEntry bar=dataSet.getEntry(entryIndex);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            bar.setColor(getColor(R.color.primary_light));
+                        }
+                        else {
+                            bar.setColor(getResources().getColor(R.color.primary_light));
+                        }
+
                         Tooltip tip=new Tooltip(Charts.this,R.layout.graph_tips);
                         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
 
@@ -260,6 +281,20 @@ public class Charts extends AppCompatActivity {
                         chart.showTooltip(tip,true);
                     }
                 });
+                //-----------Cancel tooltip-------------------------------
+                chart.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        chart.dismissAllTooltips();
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            dataSet.setColor(getColor(R.color.primary));
+                        }
+                        else {
+                            dataSet.setColor(getResources().getColor(R.color.primary));
+                        }
+                    }
+                });
+                //--------------------------------------------------------------------------
             }
         }
     }
