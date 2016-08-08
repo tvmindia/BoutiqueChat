@@ -169,7 +169,7 @@ public class Charts extends AppCompatActivity {
                     data[3]=jsonObject.optString("ProductNo");
                     data[4]=jsonObject.optString("ProductCounts","null");
                     productItems.add(data);
-                    dataSet.addBar(new Bar(data[1], Float.parseFloat(data[4])));
+                    dataSet.addBar(new Bar(data[3], Float.parseFloat(data[4])));
                 }
             } catch (Exception ex) {
                 msg=ex.getMessage();
