@@ -23,8 +23,14 @@ DatabaseHandler db=new DatabaseHandler(this);
         startActivity(chatIntent);
     }
     public void charts(View view){
-        Intent chatIntent=new Intent(DashBoard.this,Charts.class);
-        startActivity(chatIntent);
+        Intent chartIntent=new Intent(DashBoard.this,Charts.class);
+        chartIntent.putExtra("chart","trending");
+        startActivity(chartIntent);
+    }
+    public void purchases(View view){
+        Intent chartIntent=new Intent(DashBoard.this,Charts.class);
+        chartIntent.putExtra("chart","purchases");
+        startActivity(chartIntent);
     }
     //---------------Menu creation---------------------------------------------
     @Override

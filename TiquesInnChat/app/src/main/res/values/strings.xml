@@ -32,4 +32,7 @@
     <string name="loyalty_points">Loyalty Points</string>
     <string name="count">Count : %1s</string>
     <string name="p_no">No : %1s</string>
+    <string name="trending_products">Trending Products</string>
+    <string name="purchases">Purchases</string>
+    <string name="transactions">Transactions : %1s</string>
 </resources>

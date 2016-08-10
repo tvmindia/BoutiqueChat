@@ -84,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/imgBtn2"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Trending Products"
+                    android:text="@string/trending_products"
                     android:id="@+id/imgBtntext2"
                     android:gravity="center_horizontal"
                     android:textColor="@color/accent"/>
@@ -99,7 +99,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:onClick="purchases">
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
@@ -125,8 +126,8 @@
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:id="@+id/imgBtntext3"
                             android:gravity="center_horizontal"
-                            android:textColor="@color/primary_text"
-                            android:text="Today Purchases: " />
+                            android:textColor="@color/accent"
+                            android:text="@string/purchases" />
 
                     </RelativeLayout>
                 </android.support.v7.widget.CardView>
