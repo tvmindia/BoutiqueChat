@@ -327,7 +327,7 @@ public class Charts extends AppCompatActivity {
             String url =getResources().getString(R.string.url) + "WebServices/WebService.asmx/PurchaseGraph";
             HttpURLConnection c = null;
             try {
-                postData =  "{\"boutiqueID\":\"" + "470A044A-4DBA-4770-BCA7-331D2C0834AE" /*db.GetUserDetail("BoutiqueID")*/  + "\"}";
+                postData =  "{\"boutiqueID\":\"" + /*"470A044A-4DBA-4770-BCA7-331D2C0834AE"*/ db.GetUserDetail("BoutiqueID")  + "\"}";
                 URL u = new URL(url);
                 c = (HttpURLConnection) u.openConnection();
                 c.setRequestMethod("POST");
