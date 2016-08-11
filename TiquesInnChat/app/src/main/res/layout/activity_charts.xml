@@ -25,4 +25,11 @@
         android:layout_height="match_parent"
         chart:chart_barSpacing="5dp"
         chart:chart_setSpacing="5dp"/>
+    <com.db.chart.view.LineChartView
+        xmlns:chart="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/linechart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        chart:chart_barSpacing="5dp"
+        chart:chart_setSpacing="5dp"/>
 </RelativeLayout>

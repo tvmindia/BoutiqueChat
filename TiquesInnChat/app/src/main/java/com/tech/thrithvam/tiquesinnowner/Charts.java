@@ -21,7 +21,10 @@ import com.db.chart.listener.OnEntryClickListener;
 import com.db.chart.model.Bar;
 import com.db.chart.model.BarSet;
 import com.db.chart.model.ChartEntry;
+import com.db.chart.model.LineSet;
+import com.db.chart.model.Point;
 import com.db.chart.view.BarChartView;
+import com.db.chart.view.LineChartView;
 import com.db.chart.view.Tooltip;
 import com.db.chart.view.animation.Animation;
 import com.db.chart.view.animation.easing.CircEase;
@@ -46,6 +49,7 @@ import java.util.logging.Logger;
 public class Charts extends AppCompatActivity {
     DatabaseHandler db=new DatabaseHandler(this);
     BarChartView chart;
+    LineChartView chartLine;
     AsyncTask getTrends,getPurchases;
     Bundle extras;
     @Override
@@ -54,16 +58,19 @@ public class Charts extends AppCompatActivity {
         setContentView(R.layout.activity_charts);
         extras=getIntent().getExtras();
         chart=(BarChartView)findViewById(R.id.barchart);
+        chartLine=(LineChartView)findViewById(R.id.linechart);
         if (isOnline()) {
             android.support.v7.app.ActionBar ab = getSupportActionBar();
 
             if("trending".equals(extras.getString("chart"))){
+                chartLine.setVisibility(View.GONE);
                 getTrends=new GetProductsByCategory().execute();
                 if (ab != null) {
                     ab.setTitle(R.string.trending_products);
                 }
             }
             else if("purchases".equals(extras.getString("chart"))){
+                chart.setVisibility(View.GONE);
                 getPurchases=new GetPurchases().execute();
                 if (ab != null) {
                     ab.setTitle(R.string.purchases);
@@ -305,7 +312,7 @@ public class Charts extends AppCompatActivity {
         AVLoadingIndicatorView pDialog=(AVLoadingIndicatorView)findViewById(R.id.itemsLoading);
         ArrayList<String[]> purchaseItems =new ArrayList<>();
 
-        BarSet dataSet=new BarSet();
+        LineSet dataset=new LineSet();
         int max=0;
         @Override
         protected void onPreExecute() {
@@ -320,7 +327,7 @@ public class Charts extends AppCompatActivity {
             String url =getResources().getString(R.string.url) + "WebServices/WebService.asmx/PurchaseGraph";
             HttpURLConnection c = null;
             try {
-                postData =  "{\"boutiqueID\":\"" + db.GetUserDetail("BoutiqueID")  + "\"}";
+                postData =  "{\"boutiqueID\":\"" + "470A044A-4DBA-4770-BCA7-331D2C0834AE" /*db.GetUserDetail("BoutiqueID")*/  + "\"}";
                 URL u = new URL(url);
                 c = (HttpURLConnection) u.openConnection();
                 c.setRequestMethod("POST");
@@ -382,7 +389,7 @@ public class Charts extends AppCompatActivity {
                     cal.setTimeInMillis(Long.parseLong(data[2]));
                     SimpleDateFormat date;
                     date=new SimpleDateFormat("dd-MMM", Locale.US);
-                    dataSet.addBar(new Bar(date.format(cal.getTime()), Float.parseFloat(data[1])));
+                    dataset.addPoint(new Point(date.format(cal.getTime()), Float.parseFloat(data[1])));
 
                     if (Integer.parseInt(data[1])>max)  max=Integer.parseInt(data[1]);
                 }
@@ -407,17 +414,17 @@ public class Charts extends AppCompatActivity {
                         }).setCancelable(false).show();
             }
             else {
-
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    dataSet.setColor(getColor(R.color.primary));
+                    dataset.setColor(getColor(R.color.primary));
+                    dataset.setDotsColor(getColor(R.color.accent));
                 }
                 else {
-                    dataSet.setColor(getResources().getColor(R.color.primary));
+                    dataset.setColor(getResources().getColor(R.color.primary));
+                    dataset.setDotsColor(getResources().getColor(R.color.accent));
                 }
-                chart.addData(dataSet);
-                chart.setRoundCorners(3);
+                dataset.setDotsRadius(10);
+                chartLine.addData(dataset);
                 //--------Creating Y axis labels-------------------
-
                 int next;
                 int step;
                 int stepMultiplierMultiplier=1;
@@ -437,30 +444,32 @@ public class Charts extends AppCompatActivity {
                 }while (true);
 
                 next=max+(step-max%step);
-                chart.setAxisBorderValues(0,next,step);
+                chartLine.setAxisBorderValues(0,next,step);
                 //----------------------------------------------------
 
                 Animation anim = new Animation(3000);
                 anim.setEasing(new CircEase());
-                chart.show(anim);
+                chartLine.show(anim);
 
                 //-----------Tooltip on entry click---------------------
-                chart.setOnEntryClickListener(new OnEntryClickListener() {
+                chartLine.setOnEntryClickListener(new OnEntryClickListener() {
                     @Override
                     public void onClick(int setIndex, int entryIndex, Rect rect) {
-                        chart.dismissAllTooltips();
+                        chartLine.dismissAllTooltips();
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            dataSet.setColor(getColor(R.color.primary));
+                            dataset.setColor(getColor(R.color.primary));
+                            dataset.setDotsColor(getColor(R.color.accent));
                         }
                         else {
-                            dataSet.setColor(getResources().getColor(R.color.primary));
+                            dataset.setColor(getResources().getColor(R.color.primary));
+                            dataset.setDotsColor(getResources().getColor(R.color.accent));
                         }
-                        ChartEntry bar=dataSet.getEntry(entryIndex);
+                        ChartEntry dot=dataset.getEntry(entryIndex);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            bar.setColor(getColor(R.color.primary_light));
+                            dot.setColor(getColor(R.color.primary_light));
                         }
                         else {
-                            bar.setColor(getResources().getColor(R.color.primary_light));
+                            dot.setColor(getResources().getColor(R.color.primary_light));
                         }
 
                         Tooltip tip=new Tooltip(Charts.this,R.layout.graph_tips_for_purchase);
@@ -477,7 +486,7 @@ public class Charts extends AppCompatActivity {
                         tip.setVerticalAlignment(Tooltip.Alignment.BOTTOM_TOP);
                         tip.setDimensions((int) Tools.fromDpToPx(150), (int) Tools.fromDpToPx(100));
                         // tip.setMargins(0, 0, 0, (int) Tools.fromDpToPx(10));
-                        tip.prepare(chart.getEntriesArea(0).get(entryIndex), 0);
+                        tip.prepare(chartLine.getEntriesArea(0).get(entryIndex), 0);
 
                         //------Product Details---------
                         TextView pDate=(TextView)tip.findViewById(R.id.date);
@@ -490,19 +499,21 @@ public class Charts extends AppCompatActivity {
                         TextView pTransactions=(TextView)tip.findViewById(R.id.transactions);
                         pTransactions.setText(getResources().getString(R.string.transactions, purchaseItems.get(entryIndex)[0]));
                         //--------------------------------
-                        chart.showTooltip(tip,true);
+                        chartLine.showTooltip(tip,true);
                     }
                 });
                 //-----------Cancel tooltip-------------------------------
-                chart.setOnClickListener(new View.OnClickListener() {
+                chartLine.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        chart.dismissAllTooltips();
+                        chartLine.dismissAllTooltips();
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            dataSet.setColor(getColor(R.color.primary));
+                            dataset.setColor(getColor(R.color.primary));
+                            dataset.setDotsColor(getColor(R.color.accent));
                         }
                         else {
-                            dataSet.setColor(getResources().getColor(R.color.primary));
+                            dataset.setColor(getResources().getColor(R.color.primary));
+                            dataset.setDotsColor(getResources().getColor(R.color.accent));
                         }
                     }
                 });
