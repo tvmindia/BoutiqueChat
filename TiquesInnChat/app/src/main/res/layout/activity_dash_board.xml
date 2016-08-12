@@ -47,10 +47,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/imgBtn1"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Total Products: "
+                android:text="@string/products"
                 android:id="@+id/imgBtntext1"
                 android:gravity="center_horizontal"
-                android:textColor="@color/primary_text"/>
+                android:textColor="@color/accent"/>
 
         </RelativeLayout>
     </android.support.v7.widget.CardView>
