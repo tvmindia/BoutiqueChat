@@ -4,20 +4,36 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+import com.wang.avi.AVLoadingIndicatorView;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class CustomAdapter extends BaseAdapter {
     Context adapterContext;
@@ -39,6 +55,7 @@ public class CustomAdapter extends BaseAdapter {
         //Chat------------------------------------
         TextView message, time;
         RelativeLayout msgBox;
+        CardView productDetail;
         //Chat Headers----------------------------
         TextView name, date,lastMessage;
     }
@@ -72,12 +89,22 @@ public class CustomAdapter extends BaseAdapter {
                     holder.message = (TextView) convertView.findViewById(R.id.msgItem);
                     holder.time = (TextView) convertView.findViewById(R.id.msgDate);
                     holder.msgBox = (RelativeLayout) convertView.findViewById(R.id.msgBox);
+                    holder.productDetail=(CardView)convertView.findViewById(R.id.productDetail);
                     convertView.setTag(holder);
                 } else {
                     holder = (Holder) convertView.getTag();
                 }
                 //Label loading--------------------
-                holder.message.setText(objects.get(position)[0]);
+                if(objects.get(position)[0].equals("$$NewProduct$$")){
+                    holder.productDetail.setVisibility(View.VISIBLE);
+                    holder.msgBox.setVisibility(View.GONE);
+                    new ProductDetailsForChat(objects.get(position)[3],convertView).execute();
+                    break;
+                }
+                else {
+                    holder.productDetail.setVisibility(View.GONE);
+                    holder.msgBox.setVisibility(View.VISIBLE);
+                    holder.message.setText(objects.get(position)[0]);
                 if (!objects.get(position)[1].equals("null")) {
                     SimpleDateFormat formattedWithTime = new SimpleDateFormat("hh:mm a dd-MMM-yyyy", Locale.US);
                     cal.setTimeInMillis(Long.parseLong(objects.get(position)[1]));
@@ -106,6 +133,7 @@ public class CustomAdapter extends BaseAdapter {
                     }
                 }
                 holder.msgBox.setLayoutParams(params);
+                }
                 break;
             //-------------------------------Chat Head Items----------------------------------------
             case "chatHeads":
@@ -185,5 +213,139 @@ public class CustomAdapter extends BaseAdapter {
         }
 
         return convertView;
+    }
+
+    public class ProductDetailsForChat extends AsyncTask<Void , Void, Void> {
+        int status;StringBuilder sb;
+        String strJson, postData;
+        JSONArray jsonArray;
+        String msg;
+        boolean pass=false;
+        String productName,priceString,productImage;
+        Integer productNoInt;
+        String productID;
+        View prodDetView;
+        public ProductDetailsForChat(String productID,View convertView){
+            this.productID=productID;
+            this.prodDetView=convertView;
+        }
+        TextView pName;
+        TextView pNo;
+        TextView pPrice;
+        ImageView pImage;
+        AVLoadingIndicatorView avLoadingIndicatorView;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            avLoadingIndicatorView=(AVLoadingIndicatorView)prodDetView.findViewById(R.id.prodDetLoading);
+            avLoadingIndicatorView.setVisibility(View.VISIBLE);
+            pName=(TextView)prodDetView.findViewById(R.id.productName);
+            pNo=(TextView)prodDetView.findViewById(R.id.productNo);
+            pPrice=(TextView)prodDetView.findViewById(R.id.productPrice);
+            pImage=(ImageView)prodDetView.findViewById(R.id.productImg);
+            pName.setVisibility(View.INVISIBLE);
+            pNo.setVisibility(View.INVISIBLE);
+            pPrice.setVisibility(View.INVISIBLE);
+            pImage.setVisibility(View.INVISIBLE);
+            //----------encrypting ---------------------------
+            // usernameString=cryptography.Encrypt(usernameString);
+        }
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            String url =adapterContext.getResources().getString(R.string.url) + "WebServices/WebService.asmx/GetProductDetailsOnChat";
+            HttpURLConnection c = null;
+            try {
+                postData = "{\"productID\":\"" + productID + "\",\"boutiqueID\":\"" + db.GetUserDetail("BoutiqueID") + "\"}";
+                URL u = new URL(url);
+                c = (HttpURLConnection) u.openConnection();
+                c.setRequestMethod("POST");
+                c.setRequestProperty("Content-type", "application/json; charset=utf-16");
+                c.setRequestProperty("Content-length", Integer.toString(postData.length()));
+                c.setDoInput(true);
+                c.setDoOutput(true);
+                c.setUseCaches(false);
+                c.setConnectTimeout(10000);
+                c.setReadTimeout(10000);
+                DataOutputStream wr = new DataOutputStream(c.getOutputStream());
+                wr.writeBytes(postData);
+                wr.flush();
+                wr.close();
+                status = c.getResponseCode();
+                switch (status) {
+                    case 200:
+                    case 201: BufferedReader br = new BufferedReader(new InputStreamReader(c.getInputStream()));
+                        sb = new StringBuilder();
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            sb.append(line).append("\n");
+                        }
+                        br.close();
+                        int a=sb.indexOf("[");
+                        int b=sb.lastIndexOf("]");
+                        strJson=sb.substring(a, b + 1);
+                        //   strJson=cryptography.Decrypt(strJson);
+                        strJson="{\"JSON\":" + strJson.replace("\\\"","\"").replace("\\\\","\\") + "}";
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
+                msg=ex.getMessage();
+            } finally {
+                if (c != null) {
+                    try {
+                        c.disconnect();
+                    } catch (Exception ex) {
+                        Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
+                        msg=ex.getMessage();
+                    }
+                }
+            }
+            if(strJson!=null)
+            {try {
+                JSONObject jsonRootObject = new JSONObject(strJson);
+                jsonArray = jsonRootObject.optJSONArray("JSON");
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    msg=jsonObject.optString("Message");
+                    pass=jsonObject.optBoolean("Flag",true);
+                    productName=jsonObject.optString("Name");
+                    priceString=String.format(Locale.US,"%.2f", jsonObject.optDouble("Price"));
+                    productNoInt=jsonObject.optInt("ProductNo");
+                    productImage=adapterContext.getResources().getString(R.string.url) + jsonObject.optString("Image").substring((jsonObject.optString("Image")).indexOf("Media"));
+                }
+            } catch (Exception ex) {
+                msg=ex.getMessage();
+            }}
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            if(!pass) {
+                /*new AlertDialog.Builder(Chat.this).setIcon(android.R.drawable.ic_dialog_alert)//.setTitle("")
+                        .setMessage(msg)
+                        .setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }).setCancelable(false).show();*/
+            }
+            else {
+                // viewProd.setVisibility(View.VISIBLE);
+
+                pName.setVisibility(View.VISIBLE);
+                pNo.setVisibility(View.VISIBLE);
+                pPrice.setVisibility(View.VISIBLE);
+                pImage.setVisibility(View.VISIBLE);
+
+
+                pName.setText(productName);
+                pNo.setText(adapterContext.getResources().getString(R.string.product_no, productNoInt));
+                pPrice.setText(adapterContext.getResources().getString(R.string.rs, priceString));
+                Picasso.with(adapterContext).load(productImage).into(pImage);
+                avLoadingIndicatorView.setVisibility(View.GONE);
+            }
+        }
     }
 }

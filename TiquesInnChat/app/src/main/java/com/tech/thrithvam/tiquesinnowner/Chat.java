@@ -50,19 +50,16 @@ public class Chat extends AppCompatActivity {
     DatabaseHandler db=new DatabaseHandler(this);
     EditText inputMessage;
     ImageView send;
-    String lastProductIdSeen="";
     Bundle extras;
     ListView msgList;
     Handler handler = new Handler();
     int loadedMsgCount=0;
     String UserID;
-    LinearLayout productDetail;
-    AsyncTask productDetails,userDetails;
+    AsyncTask userDetails;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        productDetail=(LinearLayout)findViewById(R.id.productDetail);
         extras=getIntent().getExtras();
         getSupportActionBar().setElevation(0);
         android.support.v7.app.ActionBar ab = getSupportActionBar();
@@ -101,18 +98,11 @@ public class Chat extends AppCompatActivity {
 
         msgList.setAdapter(null);
         loadMessages();
-    //    loadingTxt=(TextView)findViewById(R.id.loadingText);
-
-        //Product Details----------------------
-
-        productDetails=new ProductDetailsForChat().execute();
-        //productDetail.setVisibility(View.GONE);
     }
     //----------Loading messages-----------------
     public void loadMessages()
     {
-        final ArrayList<String[]> msgData=db.GetMsgs(UserID);
-        lastProductIdSeen=msgData.get(msgData.size()-1)[3];                     //Default product is last one
+        final ArrayList<String[]> msgData=db.GetMsgs(UserID);                  //Default product is last one
         CustomAdapter adapter=new CustomAdapter(Chat.this, msgData,"chat");
         //New messages are arrived. List is refreshed
         if(adapter.getCount()>loadedMsgCount)
@@ -121,62 +111,19 @@ public class Chat extends AppCompatActivity {
             msgList.setOnItemClickListener(null);
             msgList.setSelection(msgList.getCount() - 1);
             loadedMsgCount=msgList.getCount();
-           /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                msgList.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-                    @Override
-                    public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                        if(msgList.getLastVisiblePosition()==msgData.size()-1){                     //Chat reached at end
-                            lastProductIdSeen=msgData.get(msgData.size()-1)[3];
-                            new ProductDetailsForChat().execute();
-                        }
-                        else if(!msgData.get(msgList.getLastVisiblePosition())[3].equals(lastProductIdSeen)
-                                &&
-                                !msgData.get(msgList.getLastVisiblePosition())[3].equals("null")){
-                            lastProductIdSeen=msgData.get(msgList.getLastVisiblePosition())[3];
-                            new ProductDetailsForChat().execute();
-                        }
-                    }
-                });
-            }
-            else {*/
-                msgList.setOnScrollListener(new AbsListView.OnScrollListener() {
-                    @Override
-                    public void onScrollStateChanged(AbsListView view, int scrollState) {
 
-                        if(msgList.getLastVisiblePosition()==msgData.size()-1){
-                            lastProductIdSeen=msgData.get(msgData.size()-1)[3];
-                            productDetails=new ProductDetailsForChat().execute();
-                        }
-                        else if(!msgData.get(msgList.getLastVisiblePosition())[3].equals(lastProductIdSeen)
-                                &&
-                                !msgData.get(msgList.getLastVisiblePosition())[3].equals("null")){
-                            lastProductIdSeen=msgData.get(msgList.getLastVisiblePosition())[3];
-                            productDetails=new ProductDetailsForChat().execute();
-                        }
-                    }
-
-                    @Override
-                    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-                    }
-                });
-         //   }
         }
         if(loadedMsgCount==0){
             msgList.setVisibility(View.GONE);
-            productDetail.setVisibility(View.GONE);
-            //loadingTxt.setVisibility(View.VISIBLE);
         }
         else {
             msgList.setVisibility(View.VISIBLE);
-          //  loadingTxt.setVisibility(View.GONE);
         }
         handler.postDelayed(new Runnable() {
             public void run() {
                 loadMessages();
             }
         },1000);
-
     }
 
     @Override
@@ -185,7 +132,6 @@ public class Chat extends AppCompatActivity {
         startActivity(back);
         finish();
         handler.removeCallbacksAndMessages(null);
-        if(productDetails!=null) productDetails.cancel(true);
         if(userDetails!=null) userDetails.cancel(true);
         overridePendingTransition(R.anim.slide_exit1,R.anim.slide_exit2);
     }
@@ -307,120 +253,6 @@ public class Chat extends AppCompatActivity {
                 inputMessage.setText("");
             }
             send.setEnabled(true);
-        }
-    }
-    public class ProductDetailsForChat extends AsyncTask<Void , Void, Void> {
-        int status;StringBuilder sb;
-        String strJson, postData;
-        JSONArray jsonArray;
-        String msg;
-        boolean pass=false;
-        String productName,priceString,productImage;
-        Integer productNoInt;
-        AVLoadingIndicatorView avLoadingIndicatorView;
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            avLoadingIndicatorView=(AVLoadingIndicatorView)findViewById(R.id.prodDetLoading);
-            avLoadingIndicatorView.setVisibility(View.VISIBLE);
-            //----------encrypting ---------------------------
-            // usernameString=cryptography.Encrypt(usernameString);
-        }
-        @Override
-        protected Void doInBackground(Void... arg0) {
-            String url =getResources().getString(R.string.url) + "WebServices/WebService.asmx/GetProductDetailsOnChat";
-            HttpURLConnection c = null;
-            try {
-                postData = "{\"productID\":\"" + lastProductIdSeen + "\",\"boutiqueID\":\"" + db.GetUserDetail("BoutiqueID") + "\"}";
-                URL u = new URL(url);
-                c = (HttpURLConnection) u.openConnection();
-                c.setRequestMethod("POST");
-                c.setRequestProperty("Content-type", "application/json; charset=utf-16");
-                c.setRequestProperty("Content-length", Integer.toString(postData.length()));
-                c.setDoInput(true);
-                c.setDoOutput(true);
-                c.setUseCaches(false);
-                c.setConnectTimeout(10000);
-                c.setReadTimeout(10000);
-                DataOutputStream wr = new DataOutputStream(c.getOutputStream());
-                wr.writeBytes(postData);
-                wr.flush();
-                wr.close();
-                status = c.getResponseCode();
-                switch (status) {
-                    case 200:
-                    case 201: BufferedReader br = new BufferedReader(new InputStreamReader(c.getInputStream()));
-                        sb = new StringBuilder();
-                        String line;
-                        while ((line = br.readLine()) != null) {
-                            sb.append(line).append("\n");
-                        }
-                        br.close();
-                        int a=sb.indexOf("[");
-                        int b=sb.lastIndexOf("]");
-                        strJson=sb.substring(a, b + 1);
-                        //   strJson=cryptography.Decrypt(strJson);
-                        strJson="{\"JSON\":" + strJson.replace("\\\"","\"").replace("\\\\","\\") + "}";
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
-                msg=ex.getMessage();
-            } finally {
-                if (c != null) {
-                    try {
-                        c.disconnect();
-                    } catch (Exception ex) {
-                        Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
-                        msg=ex.getMessage();
-                    }
-                }
-            }
-            if(strJson!=null)
-            {try {
-                JSONObject jsonRootObject = new JSONObject(strJson);
-                jsonArray = jsonRootObject.optJSONArray("JSON");
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    msg=jsonObject.optString("Message");
-                    pass=jsonObject.optBoolean("Flag",true);
-                    productName=jsonObject.optString("Name").replace("\\u0026", "&");
-                    priceString=String.format(Locale.US,"%.2f", jsonObject.optDouble("Price"));
-                    productNoInt=jsonObject.optInt("ProductNo");
-                    productImage=getResources().getString(R.string.url) + jsonObject.optString("Image").substring((jsonObject.optString("Image")).indexOf("Media"));
-                }
-            } catch (Exception ex) {
-                msg=ex.getMessage();
-            }}
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-            if(!pass) {
-                /*new AlertDialog.Builder(Chat.this).setIcon(android.R.drawable.ic_dialog_alert)//.setTitle("")
-                        .setMessage(msg)
-                        .setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        }).setCancelable(false).show();*/
-              //  productDetail.setVisibility(View.GONE);
-            }
-            else {
-                TextView pName=(TextView)findViewById(R.id.productName);
-                TextView pNo=(TextView)findViewById(R.id.productNo);
-                TextView pPrice=(TextView)findViewById(R.id.productPrice);
-                ImageView pImage=(ImageView)findViewById(R.id.productImg);
-
-                pName.setText(productName);
-                pNo.setText(getResources().getString(R.string.product_no, productNoInt));
-                pPrice.setText(getResources().getString(R.string.rs, priceString));
-                Picasso.with(Chat.this).load(productImage).into(pImage);
-                productDetail.setVisibility(View.VISIBLE);
-            }
-            avLoadingIndicatorView.setVisibility(View.GONE);
         }
     }
 

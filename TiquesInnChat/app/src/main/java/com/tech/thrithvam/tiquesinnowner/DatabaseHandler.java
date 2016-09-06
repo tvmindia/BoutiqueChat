@@ -75,9 +75,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         ArrayList<String[]> msgs=new ArrayList<>();
         Cursor cursor = db.rawQuery("SELECT Msg,MsgTime,Direction,ProductID FROM Chat WHERE UserID='"+userID+"' ORDER BY MsgTime ASC;",null);
         db.execSQL("UPDATE Chat SET Read='"+true+"' WHERE UserID='"+userID+"';");
+        String productID="";
         if (cursor.getCount()>0)
         {cursor.moveToFirst();
             do {
+                if(!cursor.getString(cursor.getColumnIndex("ProductID")).equals("null") && !productID.equals(cursor.getString(cursor.getColumnIndex("ProductID"))))
+                {
+                    String[] data = new String[4];
+                    data[0] = "$$NewProduct$$";
+                    data[1] = "null";//cursor.getString(cursor.getColumnIndex("MsgTime"));
+                    data[2] = "";
+                    data[3] = cursor.getString(cursor.getColumnIndex("ProductID"));
+                    msgs.add(data);
+                    productID=cursor.getString(cursor.getColumnIndex("ProductID"));
+                }
                 String[] data = new String[4];
                 data[0] = cursor.getString(cursor.getColumnIndex("Msg"));
                 data[1] = cursor.getString(cursor.getColumnIndex("MsgTime"));
@@ -85,7 +96,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 data[3] = cursor.getString(cursor.getColumnIndex("ProductID"));
                 msgs.add(data);
             }while (cursor.moveToNext());
-
             cursor.close();
             return msgs;
         }
