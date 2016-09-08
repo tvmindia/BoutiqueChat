@@ -231,8 +231,8 @@ public class CustomAdapter extends BaseAdapter {
                 holder.loading.setVisibility(View.GONE);
                 //Label loading--------------------
                 holder.pName.setText(objects.get(position)[1]);
-                holder.pNo.setText(objects.get(position)[3]);
-                holder.pPrice.setText(objects.get(position)[4]);
+                holder.pNo.setText(adapterContext.getResources().getString(R.string.product_no,Integer.parseInt(objects.get(position)[3])));
+                holder.pPrice.setText(adapterContext.getResources().getString(R.string.rs,objects.get(position)[4]));
                 Picasso.with(adapterContext).load(objects.get(position)[2]).into(holder.pImage);
 
                 break;
