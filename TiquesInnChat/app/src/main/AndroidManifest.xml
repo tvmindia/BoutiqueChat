@@ -4,17 +4,17 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <uses-permission android:name="android.permission.READ_LOGS" />
 
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:name=".MyApplication">
+        android:theme="@style/AppTheme">
         <activity
-            android:name="com.tech.thrithvam.tiquesinnowner.SplashScreen"
+            android:name=".SplashScreen"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar">
@@ -25,18 +25,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.tech.thrithvam.tiquesinnowner.ChatList"
-            android:label="TiquesInn Chat"/>
-        <activity android:name="com.tech.thrithvam.tiquesinnowner.Login" />
-        <activity android:name="com.tech.thrithvam.tiquesinnowner.Chat" />
+        <activity
+            android:name=".ChatList"
+            android:label="TiquesInn Chat" />
+        <activity android:name=".Login" />
+        <activity android:name=".Chat" />
 
         <service
-            android:name="com.tech.thrithvam.tiquesinnowner.Services"
+            android:name=".Services"
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name="com.tech.thrithvam.tiquesinnowner.DashBoard" />
-        <activity android:name="com.tech.thrithvam.tiquesinnowner.Charts"></activity>
+        <activity android:name=".DashBoard" />
+        <activity android:name=".Charts" />
+        <activity android:name=".Products"></activity>
     </application>
 
 </manifest>

@@ -58,6 +58,10 @@ public class CustomAdapter extends BaseAdapter {
         CardView productDetail;
         //Chat Headers----------------------------
         TextView name, date,lastMessage;
+        //Products--------------------------------
+        TextView pName, pNo, pPrice;
+        ImageView pImage;
+        AVLoadingIndicatorView loading;
     }
 
     @Override
@@ -207,6 +211,30 @@ public class CustomAdapter extends BaseAdapter {
                 else {
                         convertView.setBackgroundColor(0x00000000);
                 }
+                break;
+            //-------------------------------Product Items----------------------------------------
+            case "products":
+                if (convertView == null) {
+                    holder = new Holder();
+                    convertView = inflater.inflate(R.layout.message_item, null);
+                    holder.pName=(TextView)convertView.findViewById(R.id.productName);
+                    holder.pNo=(TextView)convertView.findViewById(R.id.productNo);
+                    holder.pPrice=(TextView)convertView.findViewById(R.id.productPrice);
+                    holder.pImage=(ImageView)convertView.findViewById(R.id.productImg);
+                    holder.msgBox = (RelativeLayout) convertView.findViewById(R.id.msgBox);
+                    holder.loading=(AVLoadingIndicatorView)convertView.findViewById(R.id.prodDetLoading);
+                    convertView.setTag(holder);
+                } else {
+                    holder = (Holder) convertView.getTag();
+                }
+                holder.msgBox.setVisibility(View.GONE);
+                holder.loading.setVisibility(View.GONE);
+                //Label loading--------------------
+                holder.pName.setText(objects.get(position)[1]);
+                holder.pNo.setText(objects.get(position)[3]);
+                holder.pPrice.setText(objects.get(position)[4]);
+                Picasso.with(adapterContext).load(objects.get(position)[2]).into(holder.pImage);
+
                 break;
             default:
                 break;

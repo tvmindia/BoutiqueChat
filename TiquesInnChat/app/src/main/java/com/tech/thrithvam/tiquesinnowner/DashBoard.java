@@ -27,6 +27,10 @@ DatabaseHandler db=new DatabaseHandler(this);
         chartIntent.putExtra("chart","trending");
         startActivity(chartIntent);
     }
+    public void products(View view){
+        Intent productIntent=new Intent(DashBoard.this,Products.class);
+        startActivity(productIntent);
+    }
     public void purchases(View view){
         Intent chartIntent=new Intent(DashBoard.this,Charts.class);
         chartIntent.putExtra("chart","purchases");
